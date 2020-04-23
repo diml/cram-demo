@@ -62,17 +62,28 @@ The `dune-cram` tool executed by `dune runtest` will execute the shell
 commands, capture their outputs and produce a new updated
 `run.t.corrected` file. And because the updated version is not the
 same as the original since the output of `./a.out` was missing, dune
-displays a diff between the two files.
+displays a diff between the two files. More precisely, you will get
+the following diff:
 
-If the new version looks good to you, you can tell dune to replace the
-`run.t` file by the new one in place by running:
+```
+--- run.t	2020-04-23 13:47:06.103773260 +0100
++++ run.t.corrected	2020-04-23 13:47:15.275635066 +0100
+@@ -5,3 +5,4 @@
+   $ ocamlc hello.ml
+ 
+   $ ./a.out
++  Hello, world!
+```
+
+If the new version appears to contain the right contents, you can tell
+dune to replace the `run.t` file by the new one in place by running:
 
    $ dune promote
 
 If you use emacs and have installed the dune mode, you can also do
 `M-x dune-promote` inside the `run.t` file. This will promote the new
 version and also update the emacs buffer. The editor integration is
-quite nice as it gives ome kind of interactive experience: write shell
+quite nice as it gives an interactive experience: write shell
 commands, use dune to evaluate them and accept the result. It is even
 possible to automate all these steps by using the dune watch mode with
 `--auto-promote` and setting up emacs to automatically reload files.
@@ -82,8 +93,8 @@ This is a test!
 
 Now that we have an up to date `run.t` file, we can drop this file and
 the `dune` file in our test suite and `dune runtest` will continue to
-execute it. If anything change that would break the test, we would get
-a nice diff showing us the change in behaviour.
+execute it. If anything changes that would break the test, we would
+get a nice diff showing us the change in behaviour.
 
-
+We would also see such diffs in CI reports, which is very nice.
 
